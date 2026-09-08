@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamScape | Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- External CSS Link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Stars BG -->
+<div class="stars-container" id="starsContainer"></div>
+<div class="shooting-star"></div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg custom-navbar fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand logo" href="#">DREAM<span>SCAPE</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto nav-links">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="experience.html">Experience</a></li>
+        <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTACT SECTION -->
+<section id="contact">
+
+  <h2 class="section-title reveal">Transmit a Cosmic Message</h2>
+  <p class="contact-desc reveal">Have an idea from another galaxy? Send a signal to DreamScape and let's create something extraordinary together.</p>
+
+  <div class="contact-form reveal" id="contactFormBox">
+
+    <!-- Progress Bar -->
+    <div class="form-progress">
+      <div class="form-progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Typing Indicator -->
+    <div class="typing-indicator" id="typingIndicator">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <span class="typing-text">DreamScape is listening...</span>
+    </div>
+
+    <!-- Form Content -->
+    <div id="formContent">
+
+      <div class="input-group" id="nameGroup">
+        <input type="text" id="nameInput" required minlength="2" autocomplete="off">
+        <label>Galaxy Name</label>
+        <span class="valid-tick">✓</span>
+        <span class="err-msg" id="nameErr">Name must be at least 2 characters</span>
+      </div>
+
+      <div class="input-group" id="emailGroup">
+        <input type="email" id="emailInput" required autocomplete="off">
+        <label>Cosmic Email</label>
+        <span class="valid-tick">✓</span>
+        <span class="err-msg" id="emailErr">Enter a valid email address</span>
+      </div>
+
+      <div class="input-group" id="subjectGroup">
+        <input type="text" id="subjectInput" required minlength="3" autocomplete="off">
+        <label>Mission Subject</label>
+        <span class="valid-tick">✓</span>
+        <span class="err-msg">Subject must be at least 3 characters</span>
+      </div>
+
+      <div class="input-group" id="msgGroup">
+        <textarea id="msgInput" rows="4" required minlength="10" maxlength="300"></textarea>
+        <label>Your Message from Earth</label>
+        <span class="valid-tick" style="top:8px;">✓</span>
+        <span class="err-msg">Message must be at least 10 characters</span>
+        <div class="char-counter" id="charCount">0 / 300</div>
+      </div>
+
+      <button class="send-btn" id="sendBtn" onclick="handleSubmit()">
+        <span id="btnText">TRANSMIT MESSAGE</span>
+        <div class="spinner" id="btnSpinner"></div>
+        <span class="btn-icon" id="btnIcon">🚀</span>
+      </button>
+
+    </div><!-- /formContent -->
+
+    <!-- Success State (hidden by default) -->
+    <div class="success-state" id="successState">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Signal Transmitted!</div>
+      <p class="success-msg">Your message has been launched across the DreamScape universe.<br>We'll respond within 24 cosmic hours.</p>
+      <button class="reset-btn" onclick="resetForm()">← Send Another Message</button>
+    </div>
+
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="contact-social reveal">
+    <h3>Connect Across the Universe</h3>
+    <div class="social-icons">
+      <div>
+        <a href="#" onclick="handleSocial(event,'Web')">🌐</a>
+        <p class="social-label">WEB</p>
+      </div>
+      <div>
+        <a href="#" onclick="handleSocial(event,'Twitter')">🚀</a>
+        <p class="social-label">LAUNCH</p>
+      </div>
+      <div>
+        <a href="#" onclick="handleSocial(event,'Stars')">💫</a>
+        <p class="social-label">COSMOS</p>
+      </div>
+      <div>
+        <a href="#" onclick="handleSocial(event,'Planet')">🪐</a>
+        <p class="social-label">ORBIT</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="contact-footer">DreamScape Universe © 2025 — Transmitting from Cosmos</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   1. STARS GENERATOR
+═══════════════════════════════════════ */
+(function generateStars(){
+  const container = document.getElementById('starsContainer');
+  for(let i = 0; i < 80; i++){
+    const star = document.createElement('div');
+    const size = Math.random() * 2.5 + 1;
+    star.style.cssText = `
+      position:absolute;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      width:${size}px;height:${size}px;
+      background:#38bdf8;
+      border-radius:50%;
+      opacity:${Math.random()*0.7+0.2};
+      animation:twinkle ${2+Math.random()*4}s ease-in-out infinite;
+      animation-delay:${Math.random()*5}s;
+    `;
+    container.appendChild(star);
+  }
+  const style = document.createElement('style');
+  style.textContent = `@keyframes twinkle{0%,100%{opacity:0.2;transform:scale(1);}50%{opacity:1;transform:scale(1.6);}}`;
+  document.head.appendChild(style);
+})();
+
+/* ═══════════════════════════════════════
+   2. CUSTOM CURSOR
+═══════════════════════════════════════ */
+const cursorDot  = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursorDot.style.left  = mx - 4 + 'px';
+  cursorDot.style.top   = my - 4 + 'px';
+});
+
+(function animateRing(){
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx - 14 + 'px';
+  cursorRing.style.top  = ry - 14 + 'px';
+  requestAnimationFrame(animateRing);
+})();
+
+document.querySelectorAll('a,button,input,textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursorRing.style.width  = '42px';
+    cursorRing.style.height = '42px';
+    cursorRing.style.borderColor = 'rgba(147,51,234,0.8)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursorRing.style.width  = '28px';
+    cursorRing.style.height = '28px';
+    cursorRing.style.borderColor = 'rgba(56,189,248,0.5)';
+  });
+});
+
+/* ═══════════════════════════════════════
+   3. NAVBAR SCROLL EFFECT
+═══════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ═══════════════════════════════════════
+   4. SCROLL REVEAL
+═══════════════════════════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if(entry.isIntersecting){
+      setTimeout(() => entry.target.classList.add('visible'), i * 150);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════════════════════════
+   5. TOAST NOTIFICATION
+═══════════════════════════════════════ */
+function showToast(message, type = 'info', duration = 4000){
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  const icons = { success:'✅', error:'❌', info:'💫' };
+  toast.className = `toast-msg ${type}`;
+  toast.innerHTML = `
+    <span style="font-size:16px;">${icons[type]}</span>
+    <span>${message}</span>
+    <span class="toast-close" onclick="this.parentElement.remove()">✕</span>
+  `;
+  container.appendChild(toast);
+  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, duration);
+}
+
+/* ═══════════════════════════════════════
+   6. PARTICLE BURST
+═══════════════════════════════════════ */
+function spawnParticles(x, y, count = 18){
+  const colors = ['#38bdf8','#9333ea','#34d399','#fb923c','#f472b6','#facc15'];
+  for(let i = 0; i < count; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
+    const dist  = 50 + Math.random() * 80;
+    const size  = 4 + Math.random() * 6;
+    p.style.cssText = `
+      left:${x}px; top:${y}px;
+      width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      --tx:${Math.cos(angle)*dist}px;
+      --ty:${Math.sin(angle)*dist}px;
+      --dur:${0.6 + Math.random()*0.5}s;
+      animation-delay:${Math.random()*0.1}s;
+    `;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1200);
+  }
+}
+
+/* ═══════════════════════════════════════
+   7. FORM VALIDATION
+═══════════════════════════════════════ */
+function validateField(input, groupId){
+  const group = document.getElementById(groupId);
+  const val   = input.value.trim();
+  let valid   = false;
+
+  if(input.type === 'email'){
+    valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  } else if(input.tagName === 'TEXTAREA'){
+    valid = val.length >= 10;
+  } else {
+    const min = parseInt(input.getAttribute('minlength')) || 2;
+    valid = val.length >= min;
+  }
+
+  const hasContent = val.length > 0;
+  group.classList.toggle('has-error', hasContent && !valid);
+  group.classList.toggle('valid', valid);
+  updateProgress();
+  return valid;
+}
+
+function updateProgress(){
+  const fields = [
+    document.getElementById('nameGroup'),
+    document.getElementById('emailGroup'),
+    document.getElementById('subjectGroup'),
+    document.getElementById('msgGroup')
+  ];
+  const done = fields.filter(g => g.classList.contains('valid')).length;
+  document.getElementById('progressFill').style.width = (done / fields.length * 100) + '%';
+}
+
+const nameInput = document.getElementById('nameInput');
+nameInput.addEventListener('input',  () => validateField(nameInput,    'nameGroup'));
+nameInput.addEventListener('blur',   () => {
+  if(nameInput.value.trim()) validateField(nameInput, 'nameGroup');
+});
+
+const emailInput = document.getElementById('emailInput');
+emailInput.addEventListener('input', () => validateField(emailInput,   'emailGroup'));
+emailInput.addEventListener('blur',  () => {
+  if(emailInput.value.trim()) validateField(emailInput, 'emailGroup');
+});
+
+const subjectInput = document.getElementById('subjectInput');
+subjectInput.addEventListener('input', () => validateField(subjectInput, 'subjectGroup'));
+subjectInput.addEventListener('blur',  () => {
+  if(subjectInput.value.trim()) validateField(subjectInput, 'subjectGroup');
+});
+
+const msgInput       = document.getElementById('msgInput');
+const charCount      = document.getElementById('charCount');
+const typingIndicator= document.getElementById('typingIndicator');
+let typingTimer;
+
+msgInput.addEventListener('input', () => {
+  const len = msgInput.value.length;
+  charCount.textContent = len + ' / 300';
+  charCount.className   = 'char-counter' + (len > 270 ? ' danger' : len > 200 ? ' warn' : '');
+
+  validateField(msgInput, 'msgGroup');
+
+  clearTimeout(typingTimer);
+  typingIndicator.classList.add('show');
+  typingTimer = setTimeout(() => typingIndicator.classList.remove('show'), 1500);
+});
+
+msgInput.addEventListener('blur', () => {
+  typingIndicator.classList.remove('show');
+  if(msgInput.value.trim()) validateField(msgInput, 'msgGroup');
+});
+
+/* ═══════════════════════════════════════
+   8. SUBMIT HANDLER
+═══════════════════════════════════════ */
+function handleSubmit(){
+  const n = validateField(nameInput,    'nameGroup');
+  const e = validateField(emailInput,   'emailGroup');
+  const s = validateField(subjectInput, 'subjectGroup');
+  const m = validateField(msgInput,     'msgGroup');
+
+  if(!n || !e || !s || !m){
+    const form = document.getElementById('contactFormBox');
+    form.classList.add('shake');
+    setTimeout(() => form.classList.remove('shake'), 400);
+    showToast('Please fill all fields correctly!', 'error');
+    return;
+  }
+
+  const btn     = document.getElementById('sendBtn');
+  const btnText = document.getElementById('btnText');
+  const spinner = document.getElementById('btnSpinner');
+  const rect    = btn.getBoundingClientRect();
+
+  spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2, 22);
+
+  btn.disabled    = true;
+  btn.classList.add('loading');
+  btnText.textContent = 'TRANSMITTING...';
+  spinner.style.display = 'block';
+
+  showToast('Signal launched into the DreamScape universe! 🚀', 'info');
+
+  setTimeout(() => {
+    document.getElementById('formContent').style.display = 'none';
+    const ss = document.getElementById('successState');
+    ss.style.display = 'flex';
+    spawnParticles(
+      window.innerWidth/2,
+      window.innerHeight/2,
+      30
+    );
+    showToast('Message received successfully! ✅', 'success', 5000);
+  }, 2000);
+}
+
+/* ═══════════════════════════════════════
+   9. RESET FORM
+═══════════════════════════════════════ */
+function resetForm(){
+  nameInput.value    = '';
+  emailInput.value   = '';
+  subjectInput.value = '';
+  msgInput.value     = '';
+  charCount.textContent = '0 / 300';
+  charCount.className   = 'char-counter';
+
+  ['nameGroup','emailGroup','subjectGroup','msgGroup'].forEach(id => {
+    const g = document.getElementById(id);
+    g.classList.remove('valid','has-error');
+  });
+  document.getElementById('progressFill').style.width = '0%';
+
+  const btn     = document.getElementById('sendBtn');
+  const btnText = document.getElementById('btnText');
+  const spinner = document.getElementById('btnSpinner');
+  btn.disabled  = false;
+  btn.classList.remove('loading');
+  btnText.textContent   = 'TRANSMIT MESSAGE';
+  spinner.style.display = 'none';
+
+  document.getElementById('successState').style.display  = 'none';
+  document.getElementById('formContent').style.display   = 'block';
+}
+
+/* ═══════════════════════════════════════
+   10. SOCIAL CLICK HANDLER
+═══════════════════════════════════════ */
+function handleSocial(e, name){
+  e.preventDefault();
+  const rect = e.currentTarget.getBoundingClientRect();
+  spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2, 14);
+  showToast('Opening ' + name + ' channel... 🌌', 'info');
+}
+
+/* ═══════════════════════════════════════
+   11. KEYBOARD — Enter to submit
+═══════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey && document.activeElement !== msgInput){
+    if(document.activeElement.closest('#contactFormBox')){
+      handleSubmit();
+    }
+  }
+});
+
+/* ═══════════════════════════════════════
+   12. PAGE VISIBILITY
+═══════════════════════════════════════ */
+document.addEventListener('visibilitychange', () => {
+  document.querySelectorAll('.shooting-star, .dot').forEach(el => {
+    el.style.animationPlayState = document.hidden ? 'paused' : 'running';
+  });
+});
+
+/* ═══════════════════════════════════════
+   13. INPUT FOCUS GLOW
+═══════════════════════════════════════ */
+document.querySelectorAll('.input-group input, .input-group textarea').forEach(inp => {
+  inp.addEventListener('focus', () => {
+    document.getElementById('contactFormBox').style.boxShadow =
+      '0 0 60px rgba(56,189,248,0.4), inset 0 0 20px rgba(56,189,248,0.15)';
+  });
+  inp.addEventListener('blur', () => {
+    document.getElementById('contactFormBox').style.boxShadow = '';
+  });
+});
+</script>
+
+</body>
+</html>
