@@ -49,7 +49,4 @@ edutrack-matrix-erp/
    npx live-server
    ```
 
-## 👩‍💻 Author
 
-**Nithika S**
-CSE 2026 Graduate | Python & Full Stack Developer
